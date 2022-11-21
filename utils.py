@@ -69,7 +69,7 @@ def summarize(writer, global_step, scalars={}, histograms={}, images={}, audios=
 
 def latest_checkpoint_path(dir_path, regex="G_*.pth"):
   f_list = glob.glob(os.path.join(dir_path, regex))
-  f_list.sort(key=lambda f: int("".join(filter(str.isdigit, f))))
+  # f_list.sort(key=lambda f: int("".join(filter(str.isdigit, f))))
   x = f_list[-1]
   print(x)
   return x
@@ -147,9 +147,11 @@ def get_hparams(init=True):
                       help='JSON file for configuration')
   parser.add_argument('-m', '--model', type=str, required=True,
                       help='Model name')
+  parser.add_argument('-o', '--outdir', type=str, default="/content/drive/MyDrive",
+                      help='Output directory of models & tensorboard logs')
   
   args = parser.parse_args()
-  model_dir = os.path.join("./logs", args.model)
+  model_dir = os.path.join(args.outdir, args.model)
 
   if not os.path.exists(model_dir):
     os.makedirs(model_dir)
